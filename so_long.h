@@ -6,7 +6,7 @@
 /*   By: rgomes-d <rgomes-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 18:48:55 by rgomes-d          #+#    #+#             */
-/*   Updated: 2025/09/01 11:35:41 by rgomes-d         ###   ########.fr       */
+/*   Updated: 2025/09/01 20:44:21 by rgomes-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,5 +34,8 @@ typedef struct s_pos
 	int	x;
 	int	y;
 }		t_pos;
+
+
+void	ft_flood_fill(char **map, t_pos init, t_pos final, t_obj_map *obj_map);
 
 #endif
