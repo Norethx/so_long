@@ -6,7 +6,7 @@
 /*   By: rgomes-d <rgomes-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 18:48:55 by rgomes-d          #+#    #+#             */
-/*   Updated: 2025/09/03 14:32:17 by rgomes-d         ###   ########.fr       */
+/*   Updated: 2025/09/03 16:07:03 by rgomes-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ typedef enum e_map
 	ERROR_NOEXIT,
 	ERROR_NOSTART,
 	ERROR_NOWALL,
-	ERROR_MAPNOTRET,
+	ERROR_MAPNOTREC,
 	ERROR_NOCOLLEC,
 	ERROR_OTHERSCHARS,
 	ERROR_MOREONESTART,

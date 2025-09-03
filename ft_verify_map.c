@@ -6,7 +6,7 @@
 /*   By: rgomes-d <rgomes-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 11:15:16 by rgomes-d          #+#    #+#             */
-/*   Updated: 2025/09/03 14:33:58 by rgomes-d         ###   ########.fr       */
+/*   Updated: 2025/09/03 16:43:09 by rgomes-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,10 @@ static t_map	ft_verify_map(char **map, t_pos ref)
 
 	i[0] = 0;
 	while (map[i[0]])
-		if ((ref.x + 1) != ft_strlen(map[i[0]++]))
-			return (handle_error(ERROR_MAPNOTRET));
+		if ((ref.x + 1) != (int)ft_strlen(map[i[0]++]))
+			return (handle_error(ERROR_MAPNOTREC));
+	if ((ref.y + 1) < 4 || (ref.y + 1) < 4)
+			return (handle_error(MAP_ERROR));
 	i[0] = 0;
 	while (i[0] <= ref.y)
 	{

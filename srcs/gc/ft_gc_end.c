@@ -6,14 +6,13 @@
 /*   By: rgomes-d <rgomes-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/31 10:03:41 by rgomes-d          #+#    #+#             */
-/*   Updated: 2025/09/01 19:27:14 by rgomes-d         ###   ########.fr       */
+/*   Updated: 2025/09/03 16:43:48 by rgomes-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "gc.h"
 
 static void			ft_gc_del_meta(char *categ);
-static t_root_list	*ft_fix_root(void);
 static t_gc_list	*ft_gc_clean_meta(char *categ);
 static t_gc_list	*ft_to_root(char *categ);
 

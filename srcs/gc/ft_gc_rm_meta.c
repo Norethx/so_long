@@ -6,7 +6,7 @@
 /*   By: rgomes-d <rgomes-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 14:26:45 by rgomes-d          #+#    #+#             */
-/*   Updated: 2025/09/03 14:26:46 by rgomes-d         ###   ########.fr       */
+/*   Updated: 2025/09/03 16:46:27 by rgomes-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	ft_gc_rm_meta(char *categ)
 	t_gcext_list	*all_allocs;
 	t_list			*aux_tlist;
 
+	aux_tlist = NULL;
 	all_allocs = ft_gc_start();
 	if (!all_allocs)
 		return ;

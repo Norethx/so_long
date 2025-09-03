@@ -6,7 +6,7 @@
 /*   By: rgomes-d <rgomes-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 18:43:41 by rgomes-d          #+#    #+#             */
-/*   Updated: 2025/09/03 14:22:50 by rgomes-d         ###   ########.fr       */
+/*   Updated: 2025/09/03 17:23:51 by rgomes-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,11 @@ void	ft_flood_fill(char **map, t_pos init, t_pos final, t_obj_map *obj_map)
 	if (map[init.y][init.x] == 'C')
 		obj_map->collectible++;
 	else if (map[init.y][init.x] == 'E')
+	{
 		obj_map->exit++;
+		map[init.y][init.x] = '1';
+		return ;
+	}
 	else if (map[init.y][init.x] == 'P')
 		obj_map->starting++;
 	else if (!ft_strchr("01CEP", map[init.y][init.x]))

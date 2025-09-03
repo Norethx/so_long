@@ -6,7 +6,7 @@
 /*   By: rgomes-d <rgomes-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/31 10:03:21 by rgomes-d          #+#    #+#             */
-/*   Updated: 2025/09/02 11:49:37 by rgomes-d         ###   ########.fr       */
+/*   Updated: 2025/09/03 16:43:31 by rgomes-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ static t_list	*ft_to_root(char *categ);
 
 t_list	*ft_gc_clean_root(char *categ)
 {
-	t_gc_list	*aux;
 	t_ext_list	*aux_ext;
 	t_list		*aux_tlist;
 
