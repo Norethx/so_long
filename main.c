@@ -6,7 +6,7 @@
 /*   By: rgomes-d <rgomes-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 20:38:26 by rgomes-d          #+#    #+#             */
-/*   Updated: 2025/09/02 20:13:40 by rgomes-d         ###   ########.fr       */
+/*   Updated: 2025/09/03 14:23:02 by rgomes-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,26 @@ static int	ft_verify_map(char **map);
 
 int	main(int argc, char **argv)
 {
-	char	**map;
-	int		fd;
+	char		**map;
+	int			fd;
+	t_obj_map	meta_map;
 
 	ft_gc_init();
 	if (!argv[1] || argc > 2)
 		return (handle_error(ARGS_ERROR));
 	fd = open(argv[1], 0);
+	if (fd < 0)
+		return (handle_error(FILE_ERROR));
 	map = ft_read_map(fd);
-	if (ft_verify_map(ft_array_dup(map)))
-		return (handle_error(MAP_ERROR));
+	meta_map = ft_handle_map(ft_array_dup(map));
+	if (meta_map.starting == 0)
+		return (1);
+	ft_printf("%s", map[0]);
+	ft_printf("%s", map[1]);
+	ft_printf("%s", map[2]);
+	ft_printf("%s", map[3]);
+	ft_printf("%s", map[4]);
+	ft_printf("%s", map[5]);
 	close(fd);
 	ft_gc_end();
 }
@@ -81,18 +91,6 @@ static char	**ft_size_map(t_gc_list *map)
 	return (map_char);
 }
 
-static int	ft_verify_map(char **map)
-{
-	t_pos ref[2];
-	int	i[2];
-
-	i[0] = 0;
-	i[1] = len(map[i])
-	while(map[i])
-	ft_gc_collect();
-	return (0);
-}
-
 static char	**ft_array_dup(char **arr)
 {
 	char	**n_arr;
@@ -103,10 +101,10 @@ static char	**ft_array_dup(char **arr)
 		;
 	n_arr = ft_gc_calloc(i + 1, sizeof(void *), GC_DATA)->content;
 	i = 0;
-	while(arr[i])
+	while (arr[i])
 	{
-		n_arr[i] = ft_gcfct_register(ft_strdup(arr[i]),GC_DATA)->content;
+		n_arr[i] = ft_gcfct_register(ft_strdup(arr[i]), GC_DATA)->content;
 		i++;
 	}
-	return(n_arr);
+	return (n_arr);
 }
