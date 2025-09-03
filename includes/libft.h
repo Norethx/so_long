@@ -6,7 +6,7 @@
 /*   By: rgomes-d <rgomes-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 09:57:31 by rgomes-d          #+#    #+#             */
-/*   Updated: 2025/09/02 18:55:17 by rgomes-d         ###   ########.fr       */
+/*   Updated: 2025/09/03 14:30:19 by rgomes-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,8 @@ void				ft_lstadd_back(t_ext_list **lst, t_list *new);
 void				ft_lstdelone(t_list **lst, void (*del)(void *));
 void				ft_lstclear(t_ext_list **lst, void (*del)(void *));
 int					ft_lstiter(t_list *lst, unsigned int (*f)(void *));
-t_ext_list			*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
+t_ext_list			*ft_lstmap(t_list *lst, void *(*f)(void *),
+						void (*del)(void *));
 void				ft_lstsort(t_list *lst);
 
 int					ft_printf(const char *str, ...);

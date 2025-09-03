@@ -6,13 +6,13 @@
 /*   By: rgomes-d <rgomes-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 19:04:47 by rgomes-d          #+#    #+#             */
-/*   Updated: 2025/09/03 14:22:59 by rgomes-d         ###   ########.fr       */
+/*   Updated: 2025/09/03 14:34:02 by rgomes-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-int	handle_error(e_map error)
+int	handle_error(t_map error)
 {
 	if (error == ARGS_ERROR)
 		ft_printf("Error: invalid argument\n");

@@ -6,13 +6,13 @@
 /*   By: rgomes-d <rgomes-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 11:15:16 by rgomes-d          #+#    #+#             */
-/*   Updated: 2025/09/03 14:22:57 by rgomes-d         ###   ########.fr       */
+/*   Updated: 2025/09/03 14:33:58 by rgomes-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-static e_map		ft_verify_map(char **map, t_pos ref);
+static t_map		ft_verify_map(char **map, t_pos ref);
 static t_pos		ft_verify_start(char **map, t_pos ref);
 static int			ft_handle_map_aux(t_obj_map meta_map);
 static t_obj_map	ft_init_meta_map(void);
@@ -44,7 +44,7 @@ t_obj_map	ft_handle_map(char **map)
 	return (meta_map);
 }
 
-static e_map	ft_verify_map(char **map, t_pos ref)
+static t_map	ft_verify_map(char **map, t_pos ref)
 {
 	int	i[2];
 
@@ -106,6 +106,7 @@ static int	ft_handle_map_aux(t_obj_map meta_map)
 		return (handle_error(ERROR_MOREONEEXIT));
 	return (0);
 }
+
 static t_obj_map	ft_init_meta_map(void)
 {
 	t_obj_map	rtn;

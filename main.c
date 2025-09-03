@@ -6,7 +6,7 @@
 /*   By: rgomes-d <rgomes-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 20:38:26 by rgomes-d          #+#    #+#             */
-/*   Updated: 2025/09/03 14:23:02 by rgomes-d         ###   ########.fr       */
+/*   Updated: 2025/09/03 14:26:17 by rgomes-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ static char	**ft_read_map(int fd)
 	map_full = ft_size_map(map);
 	return (map_full);
 }
+
 static char	**ft_size_map(t_gc_list *map)
 {
 	int		i;
