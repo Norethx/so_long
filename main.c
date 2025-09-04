@@ -6,20 +6,17 @@
 /*   By: rgomes-d <rgomes-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 20:38:26 by rgomes-d          #+#    #+#             */
-/*   Updated: 2025/09/03 17:47:45 by rgomes-d         ###   ########.fr       */
+/*   Updated: 2025/09/04 17:55:34 by rgomes-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "MLX42/MLX42.h"
 #include "so_long.h"
 
-static char	**ft_read_map(int fd);
-static char	**ft_size_map(t_gc_list *map);
-static char	**ft_array_dup(char **arr);
-int			teste(t_obj_map meta_map);
-void	hook(void* param);
-
-static mlx_image_t	*g_img;
+static char			**ft_read_map(int fd);
+static char			**ft_size_map(t_gc_list *map);
+static char			**ft_array_dup(char **arr);
+// int					teste(t_obj_map meta_map);
+// void				hook(void *param);
 
 int	main(int argc, char **argv)
 {
@@ -43,38 +40,7 @@ int	main(int argc, char **argv)
 	if (meta_map.starting == 0)
 		return (1);
 	ft_printf("Map is valid.\n");
-	teste(meta_map);
-	close(fd);
 	ft_gc_end();
-}
-int	teste(t_obj_map meta_map)
-{
-	mlx_t	*mlx;
-
-
-	mlx = mlx_init(800, 600, "SO_LONG", true);
-	if (!mlx)
-		return (1);
-	g_img = mlx_new_image(mlx, 128, 128);
-	mlx_image_to_window(mlx, g_img, 0, 0);
-	mlx_loop_hook(mlx, &hook, mlx);
-	mlx_loop(mlx);
-	mlx_terminate(mlx);
-	return (meta_map.others_char);
-}
-
-void	hook(void* param)
-{
-	mlx_t* mlx;
-
-	mlx = param;
-	if (mlx_is_key_down(mlx, MLX_KEY_ESCAPE))
-		mlx_close_window(mlx);
-	if (mlx_is_key_down(mlx, MLX_KEY_P))
-		mlx_delete_image(mlx, g_img);
-	for (int x = 0; x < (int)g_img->width; x++)
-		for(int y= 0; y < (int)g_img->height; y++)
-			mlx_put_pixel(g_img, x, y, rand() % RAND_MAX);
 }
 
 static char	**ft_read_map(int fd)
@@ -99,6 +65,7 @@ static char	**ft_read_map(int fd)
 		free(line);
 	map_full = ft_size_map(map);
 	ft_printf("File fully read.\n");
+	close(fd);
 	return (map_full);
 }
 
