@@ -6,7 +6,7 @@
 /*   By: rgomes-d <rgomes-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 20:00:26 by rgomes-d          #+#    #+#             */
-/*   Updated: 2025/09/04 20:06:55 by rgomes-d         ###   ########.fr       */
+/*   Updated: 2025/09/05 11:36:33 by rgomes-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,9 @@ t_root_list	*ft_gc_call_root(char *categ)
 			&& !ft_strcmp(((t_root_list *)aux->content)->categ, "gc_roots")))
 		aux = aux->next;
 	if (!aux && (!ft_strcmp(categ, "gc_meta") || !ft_strcmp(categ, "gc_roots")))
-		return (ft_new_root_aux(categ, GC_SYSROOT));
+		return (NULL);
 	else
 		aux_tlist = ((t_root_list *)aux->content)->lst->head;
-	if (!ft_strcmp(categ, "gc_roots") || !ft_strcmp(categ, "gc_meta"))
-		return (NULL);
 	while (aux_tlist)
 	{
 		if (!ft_strcmp(ft_to_root_list(aux_tlist->content)->categ, categ))

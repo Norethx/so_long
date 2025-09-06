@@ -6,100 +6,153 @@
 /*   By: rgomes-d <rgomes-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 17:55:39 by rgomes-d          #+#    #+#             */
-/*   Updated: 2025/09/04 20:46:25 by rgomes-d         ###   ########.fr       */
+/*   Updated: 2025/09/05 21:16:09 by rgomes-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-void	*ft_mlx_obj(t_mlx_init idx)
+static void	ft_init_image(mlx_image_t **imgs, mlx_t *mlx);
+static void	ft_hook_key(mlx_key_data_t keydata, void *param);
+static void	ft_animation_move(char c, int cont, t_game *game);
+static void	ft_walk(mlx_image_t **player, char c, int cont, t_game *game);
+void		ft_teste(void *param);
+
+void	ft_teste(void *param)
+{
+	int			i[3];
+	mlx_image_t	*collec;
+	mlx_image_t	*player;
+	mlx_image_t	*exit[2];
+	mlx_image_t	*txt;
+	t_game		*game;
+	mlx_t		*mlx;
+
+	mlx = ft_mlx_obj(17, NULL);
+	i[0] = 0;
+	i[1] = 0;
+	i[2] = 0;
+	collec = ft_mlx_obj(COLLEC, NULL);
+	exit[0] = ft_mlx_obj(EXIT_C, NULL);
+	exit[1] = ft_mlx_obj(EXIT_O, NULL);
+	player = ft_mlx_obj(PLAYER_R, NULL);
+	game = param;
+	txt = ft_mlx_obj(16, NULL);
+	while (i[0] < game->collect->qt)
+	{
+		if (collec->instances[i[0]].enabled
+			&& (player->instances[0].x == collec->instances[i[0]].x
+				&& player->instances[0].y == (collec->instances[i[0]].y)))
+		{
+			collec->instances[i[0]].enabled = false;
+			mlx_delete_image(mlx, txt);
+			game->qt_col--;
+			txt = mlx_put_string(mlx,
+					ft_gcfct_register(ft_strjoin("collectables: ",
+							ft_gcfct_register(ft_itoa(game->qt_col),
+								GC_DATA)->content), GC_DATA)->content, 0, 0);
+			ft_gc_collect();
+		}
+		i[0]++;
+	}
+	if (game->qt_col == 0 && !exit[1]->instances[0].enabled)
+	{
+		exit[0]->instances[0].enabled = false;
+		exit[1]->instances[0].enabled = true;
+		game->map[game->end.y][game->end.x] = '0';
+	}
+	if (exit[1]->instances[0].enabled
+		&& (player->instances[0].x == exit[1]->instances[0].x
+			&& player->instances[0].y == (exit[1]->instances[0].y)))
+	{
+		mlx_close_window(mlx);
+	}
+}
+
+void	*ft_mlx_obj(int idx, t_game *game)
 {
 	static mlx_t		*mlx = NULL;
-	static mlx_image_t	*image[15] = {0};
+	static mlx_image_t	*image[17] = {0};
 	int					i;
 
 	i = 0;
 	if (!mlx)
-		mlx = mlx_init(idx.max_wid * WIDTH, idx.max_hei * WIDTH, "so_long",
-				false);
-	if (!image)
-		ft_init_image(image, mlx);
-	while (i < 15)
+		mlx = mlx_init((game->size.x + 1) * WIDTH, (game->size.y + 2) * WIDTH,
+				"so_long", false);
+	if (!image[0])
 	{
-		if (!image[i])
-		{
-			mlx_close_window(mlx);
-			ft_printf("Error: texture no load");
-			return (NULL);
-		}
+		ft_init_image(image, mlx);
+		image[16] = mlx_put_string(mlx,
+				ft_gcfct_register(ft_strjoin("collectables: ",
+						ft_gcfct_register(ft_itoa(game->qt_col),
+							GC_DATA)->content), GC_DATA)->content, 0, 0);
 	}
-	if (idx.idx == 15)
+	if (idx == 17)
 		return (mlx);
-	else if (idx.idx >= 0 && idx.idx <= 14)
-		return (image[idx.idx]);
+	else if (idx >= 0 && idx <= 16)
+		return (image[idx]);
 	else
 		return (NULL);
 }
 
-static void	*ft_init_image(mlx_image_t **imgs, mlx_t *mlx)
+static void	ft_init_image(mlx_image_t **imgs, mlx_t *mlx)
 {
-	mlx_texture_t	*txt[15];
+	mlx_texture_t	*txt[17];
 	int				i;
 
 	i = 0;
-	txt[0] = mlx_load_png("floor.png");
-	txt[1] = mlx_load_png("wall.png");
-	txt[2] = mlx_load_png("wall_down.png");
-	txt[3] = mlx_load_png("wall_down_el.png");
-	txt[4] = mlx_load_png("wall_down_rl.png");
-	txt[5] = mlx_load_png("wall_top.png");
-	txt[6] = mlx_load_png("wall_top_el.png");
-	txt[7] = mlx_load_png("wall_top_rl.png");
-	txt[8] = mlx_load_png("wall_r.png");
-	txt[9] = mlx_load_png("wall_l.png");
-	txt[10] = mlx_load_png("collec.png");
-	txt[11] = mlx_load_png("exit_c.png");
-	txt[12] = mlx_load_png("exit_c.png");
-	txt[13] = mlx_load_png("player_r");
-	txt[14] = mlx_load_png("player_l");
-	while (i < 15)
+	txt[0] = mlx_load_png("textures/floor.png");
+	txt[1] = mlx_load_png("textures/wall.png");
+	txt[2] = mlx_load_png("textures/wall_down.png");
+	txt[3] = mlx_load_png("textures/wall_down_el.png");
+	txt[4] = mlx_load_png("textures/wall_down_rl.png");
+	txt[5] = mlx_load_png("textures/wall_top.png");
+	txt[6] = mlx_load_png("textures/wall_top_el.png");
+	txt[7] = mlx_load_png("textures/wall_top_rl.png");
+	txt[8] = mlx_load_png("textures/wall_r.png");
+	txt[9] = mlx_load_png("textures/wall_l.png");
+	txt[10] = mlx_load_png("textures/collect.png");
+	txt[11] = mlx_load_png("textures/exit_c.png");
+	txt[12] = mlx_load_png("textures/exit_o.png");
+	txt[13] = mlx_load_png("textures/player_r.png");
+	txt[14] = mlx_load_png("textures/player_l.png");
+	txt[15] = mlx_load_png("textures/wall_mid.png");
+	while (i < 16)
 	{
 		imgs[i] = mlx_texture_to_image(mlx, txt[i]);
-		i++;
+		mlx_delete_texture(txt[i++]);
 	}
 }
 
-void	ft_hook_key(mlx_key_data_t keydata, void *param)
+static void	ft_hook_key(mlx_key_data_t keydata, void *param)
 {
 	mlx_t	*mlx;
+	t_game	*game;
 
-	mlx = param;
+	game = param;
+	mlx = ft_mlx_obj(17, 0);
 	if (keydata.action == MLX_PRESS)
 	{
 		if (keydata.key == MLX_KEY_ESCAPE)
 			mlx_close_window(mlx);
-		if (mlx_is_key_down(mlx, MLX_KEY_UP))
-			ft_animation_move('y', -WIDTH);
-		if (keydata.key == MLX_KEY_DOWN)
-			ft_animation_move('y', +WIDTH);
-		if (keydata.key == MLX_KEY_LEFT)
-			ft_animation_move('x', -WIDTH);
-		if (keydata.key == MLX_KEY_RIGHT)
-			ft_animation_move('x', +WIDTH);
+		if (keydata.key == MLX_KEY_UP || keydata.key == MLX_KEY_W)
+			ft_animation_move('y', -WIDTH, game);
+		if (keydata.key == MLX_KEY_DOWN || keydata.key == MLX_KEY_S)
+			ft_animation_move('y', +WIDTH, game);
+		if (keydata.key == MLX_KEY_LEFT || keydata.key == MLX_KEY_A)
+			ft_animation_move('x', -WIDTH, game);
+		if (keydata.key == MLX_KEY_RIGHT || keydata.key == MLX_KEY_D)
+			ft_animation_move('x', +WIDTH, game);
 	}
 }
 
-void	ft_animation_move(char c, int cont)
+static void	ft_animation_move(char c, int cont, t_game *game)
 {
 	mlx_image_t	*player[2];
-	t_mlx_init	data;
 
-	ft_bzero(&data, sizeof(t_mlx_init));
-	data.idx = PLAYER_L;
-	player[0] = ft_mlx_obj(data);
-	data.idx = PLAYER_R;
-	player[1] = ft_mlx_obj(data);
-	ft_walk(player, c, cont);
+	player[0] = ft_mlx_obj(13, NULL);
+	player[1] = ft_mlx_obj(14, NULL);
+	ft_walk(player, c, cont, game);
 	if (cont < 0)
 	{
 		player[0]->instances[0].enabled = false;
@@ -114,70 +167,61 @@ void	ft_animation_move(char c, int cont)
 	player[1]->instances[0].y = player[0]->instances[0].y;
 }
 
-void	ft_walk(mlx_image_t **player, char c, int cont)
+static void	ft_walk(mlx_image_t **player, char c, int cont, t_game *game)
 {
-	char	**map;
+	char		**map;
+	t_root_list	*r_map;
 
-	map = ((t_gc_list *)ft_gc_call_root("full_map")->lst->head->content)->content;
+	r_map = ft_gc_call_root("full_map");
+	map = ((t_gc_list *)ft_to_root_list(r_map)->lst->head->content)->content;
 	if (c == 'y')
 	{
-		if (map[player[0]->instances[0].y
-			+ cont][player[0]->instances[0].x] == '1')
+		if (ft_strchr("1E", map[(player[0]->instances[0].y + cont)
+				/ WIDTH][player[0]->instances[0].x / WIDTH]))
 			return ;
 		player[0]->instances[0].y += cont;
+		game->mov++;
+		ft_printf("\n%d", game->mov);
 	}
 	if (c == 'x')
 	{
-		if (map[player[0]->instances[0].y
-			+ cont][player[0]->instances[0].x] == '1')
+		if (ft_strchr("1E", map[player[0]->instances[0].y
+				/ WIDTH][(player[0]->instances[0].x + cont) / WIDTH]))
 			return ;
 		player[0]->instances[0].x += cont;
+		game->mov++;
+		ft_printf("\n%d", game->mov);
 	}
 }
 
-int	teste(t_obj_map meta_map)
+int	ft_handle_game(t_game *meta_map)
 {
-	t_mlx_init	data;
-	mlx_t		*mlx;
-	int			i;
+	int		i;
+	mlx_t	*mlx;
 
 	i = 0;
-	ft_bzero(&data, sizeof(t_mlx_init));
-	data.idx = 15;
-	mlx = ft_mlx_obj(data);
+	mlx = ft_mlx_obj(17, meta_map);
 	if (!mlx)
 		return (1);
-	while (i < 15)
+	while (i < 16)
 	{
-		data.idx = i++;
-		if (i == PLAYER_L || i == PLAYER_R || i == EXIT_C || i == EXIT_O)
-			mlx_resize_image((mlx_image_t *)ft_mlx_obj(data), WIDTH, HEIGHT);
+		if (i == PLAYER_L || i == PLAYER_R || i == EXIT_C || i == EXIT_O
+			|| i == WALL_MID)
+			mlx_resize_image((mlx_image_t *)ft_mlx_obj(i, meta_map), WIDTH,
+				HEIGHT);
 		else
-			mlx_resize_image((mlx_image_t *)ft_mlx_obj(data), WIDTH, WIDTH);
+			mlx_resize_image((mlx_image_t *)ft_mlx_obj(i, meta_map), WIDTH,
+				WIDTH);
+		i++;
 	}
-	ft_init_game();
-	ft_build_floor();
-	ft_build_wall();
-	ft_build_collects();
-	ft_build_exit();
-	ft_build_player();
-	mlx_key_hook(mlx, ft_hook_key, mlx);
+	ft_fill_scene(meta_map);
+	mlx_key_hook(mlx, ft_hook_key, meta_map);
+	mlx_loop_hook(mlx, ft_teste, meta_map);
 	mlx_loop(mlx);
-	mlx_kill_image();
+	// mlx_kill_image();
+	i = 0;
+	while (i < 17)
+		mlx_delete_image(mlx, (mlx_image_t *)ft_mlx_obj(i++, meta_map));
 	mlx_terminate(mlx);
-	return (meta_map.others_char);
+	return (0);
 }
-
-// void	hook(void *param)
-// {
-// 	mlx_t	*mlx;
-
-// 	mlx = param;
-// 	if (mlx_is_key_down(mlx, MLX_KEY_ESCAPE))
-// 		mlx_close_window(mlx);
-// 	if (mlx_is_key_down(mlx, MLX_KEY_P))
-// 		mlx_delete_image(mlx, g_img);
-// 	for (int x = 0; x < (int)g_img->width; x++)
-// 		for (int y = 0; y < (int)g_img->height; y++)
-// 			mlx_put_pixel(g_img, x, y, rand() % RAND_MAX);
-// }

@@ -161,7 +161,7 @@ int32_t	main(void)
 	teste[1] = mlx_load_png("textures/player_l.png");
 	teste[2] = mlx_load_png("textures/player_l.png");
 	teste[3] = mlx_load_png("textures/player_l.png");
-	t_floor = mlx_load_png("floor_2.png");
+	t_floor = mlx_load_png("textures/exit_o.png");
 	if (!(mlx = mlx_init(SIZE_GRID_WIDTH * 8, SIZE_GRID_WIDTH * (8 + 1),
 				"MLX42", false)))
 	{
@@ -202,7 +202,7 @@ int32_t	main(void)
 		puts(mlx_strerror(mlx_errno));
 		return (EXIT_FAILURE);
 	}
-	mlx_resize_image(floor, SIZE_GRID_WIDTH, SIZE_GRID_WIDTH);
+	mlx_resize_image(floor, SIZE_GRID_WIDTH, SIZE_GRID_HEIGHT);
 	mlx_put_string(mlx, "Teste: x0", SIZE_GRID_WIDTH * 0, SIZE_GRID_WIDTH * 8);
 	while (i < 8)
 	{
@@ -223,7 +223,7 @@ int32_t	main(void)
 	image[0]->instances[0].enabled = false;
 	image[1]->instances[0].enabled = false;
 	image[2]->instances[0].enabled = false;
-	// mlx_loop_hook(mlx, ft_randomize, mlx);
+	mlx_loop_hook(mlx, ft_randomize, mlx);
 	mlx_key_hook(mlx, ft_hook_key, mlx);
 	// mlx_loop_hook(mlx, ft_hook, mlx);
 	mlx_loop(mlx);
