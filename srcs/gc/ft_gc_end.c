@@ -6,7 +6,7 @@
 /*   By: rgomes-d <rgomes-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/31 10:03:41 by rgomes-d          #+#    #+#             */
-/*   Updated: 2025/09/03 16:43:48 by rgomes-d         ###   ########.fr       */
+/*   Updated: 2025/09/06 10:18:05 by rgomes-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,10 +78,8 @@ static t_gc_list	*ft_to_root(char *categ)
 {
 	t_gc_list		*aux;
 	t_gcext_list	*all_allocs;
-	t_list			*aux_tlist;
 
 	all_allocs = ft_gc_start();
-	aux_tlist = NULL;
 	if (!all_allocs)
 		return (NULL);
 	aux = all_allocs->head;
