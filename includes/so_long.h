@@ -6,7 +6,7 @@
 /*   By: rgomes-d <rgomes-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 18:48:55 by rgomes-d          #+#    #+#             */
-/*   Updated: 2025/09/06 16:10:47 by rgomes-d         ###   ########.fr       */
+/*   Updated: 2025/09/07 23:06:10 by rgomes-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,17 +103,16 @@ typedef struct s_game
 	int			mov;
 	t_pos		size;
 	t_pos		init;
-	t_pos		end;
 	char		**map;
 }				t_game;
 
-// typedef struct s_player
-// {
-// 	mlx_texture_t	**texture;
-// 	mlx_image_t		**image;
-// 	int				actual;
-// 	double			last_anime;
-// }					t_player;
+typedef struct s_player
+{
+	mlx_image_t		*idle[8];
+	mlx_image_t		*run[8];
+	int				actual;
+	double			last_anime;
+}					t_player;
 
 // typedef struct s_game
 // {
@@ -132,5 +131,6 @@ t_game			*ft_handle_map(char **map);
 void			*ft_mlx_obj(int idx, t_game *game);
 int				ft_handle_game(t_game *meta_map);
 void			ft_fill_scene(t_game *game);
+void			ft_animation_move(char c, int cont, t_game *game);
 
 #endif
