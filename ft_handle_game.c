@@ -6,7 +6,7 @@
 /*   By: rgomes-d <rgomes-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 17:55:39 by rgomes-d          #+#    #+#             */
-/*   Updated: 2025/09/07 23:22:41 by rgomes-d         ###   ########.fr       */
+/*   Updated: 2025/09/08 01:18:20 by rgomes-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,13 @@ static void *ft_text_game(mlx_image_t **imgs, mlx_t *mlx, t_game *game);
 static void ft_resize_img(void);
 static void	ft_hook_idle(void *param);
 static void	ft_hook_idle_aux(t_game	*game);
+static void	ft_hook_idlle_player();
 static void	ft_init_image_idle_patrol(t_player **imgs, mlx_t *mlx);
 static void	ft_init_image_run_patrol(t_player **imgs, mlx_t *mlx);
 static void	ft_init_image_idle_player(t_player **imgs, mlx_t *mlx);
 static void	ft_init_image_run_player(t_player **imgs, mlx_t *mlx);
 static void ft_resize_childs(void);
+static void	ft_alter_instance_idle(t_player *player, int cont, int i);
 
 void	ft_hook_idle(void *param)
 {
@@ -37,6 +39,7 @@ void	ft_hook_idle(void *param)
 	i[1] = 0;
 	collec = ft_mlx_obj(COLLEC, NULL);
 	player = ((t_player *)ft_mlx_obj(18, NULL))->idle[0];
+	ft_hook_idlle_player();
 	while (i[0] < ((t_game *)param)->collect->qt)
 	{
 		if (collec->instances[i[0]].enabled
@@ -45,12 +48,52 @@ void	ft_hook_idle(void *param)
 		{
 			collec->instances[i[0]].enabled = false;
 			((t_game *)param)->qt_col--;
-			ft_mlx_obj(16, param);
-			ft_gc_collect();
 		}
 		i[0]++;
 	}
 	ft_hook_idle_aux(param);
+}
+
+void ft_hook_idlle_player(void)
+{
+	t_player *player;
+	double	time;
+
+	player = ft_mlx_obj(18,NULL);
+	time = mlx_get_time();
+	if (time - player->last_anime > 0.25)
+	{
+		player->last_anime = time;
+		player->actual = 3;
+		player->actual_i = (player->actual_i + 1) % 4;
+		ft_alter_instance_idle(player, player->direction, 0);
+	}
+}
+
+static void	ft_alter_instance_idle(t_player *player, int cont, int i)
+{
+	if (cont < 0)
+	{
+		while (i < 8)
+		{
+			if (player->actual_i + 4 == i)
+				player->idle[i]->instances[0].enabled = true;
+			else
+				player->idle[i]->instances[0].enabled = false;
+			player->run[i++]->instances[0].enabled = false;
+		}
+	}
+	else
+	{
+		while (i < 8)
+		{
+			if (player->actual_i == i)
+				player->idle[i]->instances[0].enabled = true;
+			else
+				player->idle[i]->instances[0].enabled = false;
+			player->run[i++]->instances[0].enabled = false;
+		}
+	}
 }
 
 void	ft_hook_idle_aux(t_game	*game)
@@ -65,7 +108,7 @@ void	ft_hook_idle_aux(t_game	*game)
 	exit[1] = ft_mlx_obj(EXIT_O, NULL);
 	end.x = exit[0]->instances[0].x / WIDTH;
 	end.y = exit[0]->instances[0].y / WIDTH;
-	player = ft_mlx_obj(PLAYER_R, NULL);
+	player = ((t_player *)ft_mlx_obj(18, NULL))->idle[0];
 	if (game->qt_col == 0 && !exit[1]->instances[0].enabled)
 	{
 		exit[0]->instances[0].enabled = false;
@@ -114,8 +157,8 @@ void	*ft_mlx_obj(int idx, t_game *game)
 static void *ft_text_game(mlx_image_t **imgs, mlx_t *mlx, t_game *game)
 {
 	mlx_delete_image(mlx, imgs[16]); 
-	imgs[16] = mlx_put_string(mlx, ft_gcfct_register(ft_strjoin("collectables: ",
-			ft_gcfct_register(ft_itoa(game->qt_col), GC_DATA)->content),
+	imgs[16] = mlx_put_string(mlx, ft_gcfct_register(ft_strjoin("Moves: ",
+			ft_gcfct_register(ft_itoa(game->mov), GC_DATA)->content),
 				 GC_DATA)->content, 0, 0);
 	return (imgs[16]);
 }
@@ -348,6 +391,7 @@ int	ft_handle_game(t_game *meta_map)
 {
 	int		i;
 	mlx_t	*mlx;
+	t_player *child[2];
 
 	i = 0;
 	mlx = ft_mlx_obj(17, meta_map);
@@ -355,12 +399,21 @@ int	ft_handle_game(t_game *meta_map)
 		return (1);
 	ft_resize_img();
 	ft_fill_scene(meta_map);
-	mlx_image_to_window(mlx, ((t_player *)ft_mlx_obj(18, NULL))->idle[0],0, 0);
 	mlx_key_hook(mlx, ft_hook_key, meta_map);
 	mlx_loop_hook(mlx, ft_hook_idle, meta_map);
 	mlx_loop(mlx);
+	child[0]= ft_mlx_obj(18,NULL);
+	child[1]= ft_mlx_obj(19,NULL);
 	while (i < 17)
 		mlx_delete_image(mlx, (mlx_image_t *)ft_mlx_obj(i++, meta_map));
+	i = 0;
+	while (i < 7)
+	{
+		mlx_delete_image(mlx,child[0]->idle[i]);
+		mlx_delete_image(mlx,child[0]->run[i]);
+		mlx_delete_image(mlx,child[1]->idle[i]);
+		mlx_delete_image(mlx,child[1]->run[i++]);
+	}
 	mlx_terminate(mlx);
 	return (0);
 }

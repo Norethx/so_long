@@ -6,7 +6,7 @@
 /*   By: rgomes-d <rgomes-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 18:48:55 by rgomes-d          #+#    #+#             */
-/*   Updated: 2025/09/07 23:06:10 by rgomes-d         ###   ########.fr       */
+/*   Updated: 2025/09/08 00:58:02 by rgomes-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,8 @@ typedef struct s_player
 	mlx_image_t		*idle[8];
 	mlx_image_t		*run[8];
 	int				actual;
+	int				actual_i;
+	int				direction;
 	double			last_anime;
 }					t_player;
 

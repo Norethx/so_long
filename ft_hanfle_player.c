@@ -6,13 +6,13 @@
 /*   By: rgomes-d <rgomes-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/07 21:13:44 by rgomes-d          #+#    #+#             */
-/*   Updated: 2025/09/07 23:29:35 by rgomes-d         ###   ########.fr       */
+/*   Updated: 2025/09/08 01:08:00 by rgomes-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-static void	ft_alter_instance(t_player *player, int cont);
+static void	ft_alter_instance(t_player *player, int cont, int i);
 static void ft_alter_position_all(t_player *player);
 static	void verify_walls(mlx_image_t *player, mlx_instance_t *ist_w, size_t count);
 static void	ft_walk(t_player *player, char c, int cont, t_game *game);
@@ -24,10 +24,13 @@ void	ft_animation_move(char c, int cont, t_game *game)
 
 	player = ft_mlx_obj(18,NULL);
 	wall_m = ft_mlx_obj(WALL_MID, NULL);
+	player->actual_i = 3;
+	player->direction = cont;
 	ft_walk(player, c, cont, game);
 	verify_walls(player->run[0], wall_m->instances, wall_m->count);
-	ft_alter_instance(player, cont);
+	ft_alter_instance(player, cont, 0);
 	ft_alter_position_all(player);
+	player->last_anime = mlx_get_time();
 }
 
 static void ft_alter_position_all(t_player *player)
@@ -37,7 +40,7 @@ static void ft_alter_position_all(t_player *player)
 
 	i = 0;
 	z = player->run[0]->instances[0].z;
-	while (i < 7)
+	while (i < 8)
 	{
 		if (i == 0)
 		{
@@ -57,15 +60,12 @@ static void ft_alter_position_all(t_player *player)
 	}
 }
 
-static void	ft_alter_instance(t_player *player, int cont)
+static void	ft_alter_instance(t_player *player, int cont, int i)
 {
-	int	i;
-
-	i = 0;
 	player->actual = (player->actual + 1) % 4;
 	if (cont < 0)
 	{
-		while (i < 7)
+		while (i < 8)
 		{
 			if (player->actual + 4 == i)
 				player->run[i]->instances[0].enabled = true;
@@ -76,7 +76,7 @@ static void	ft_alter_instance(t_player *player, int cont)
 	}
 	else
 	{
-		while (i < 7)
+		while (i < 8)
 		{
 			if (player->actual == i)
 				player->run[i]->instances[0].enabled = true;
@@ -121,7 +121,8 @@ static void	ft_walk(t_player *player, char c, int cont, t_game *game)
 			return ;
 		player->run[0]->instances[0].y += cont;
 		game->mov++;
-		ft_printf("Moves: %d\n", game->mov);
+		ft_mlx_obj(16, game);
+		ft_gc_collect();
 	}
 	if (c == 'x')
 	{
@@ -130,6 +131,7 @@ static void	ft_walk(t_player *player, char c, int cont, t_game *game)
 			return ;
 		player->run[0]->instances[0].x += cont;
 		game->mov++;
-		ft_printf("Moves: %d\n", game->mov);
+		ft_mlx_obj(16, game);
+		ft_gc_collect();
 	}
 }

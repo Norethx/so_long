@@ -6,7 +6,7 @@
 /*   By: rgomes-d <rgomes-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 17:49:22 by rgomes-d          #+#    #+#             */
-/*   Updated: 2025/09/07 23:20:23 by rgomes-d         ###   ########.fr       */
+/*   Updated: 2025/09/07 23:40:48 by rgomes-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static void	ft_render_child(t_game *game, char c, t_player *child, mlx_t *mlx)
 		{
 			i[2] = 0;
 			if (game->map[i[0]][i[1]] == c)
-				while (i[2] < 7)
+				while (i[2] < 8)
 				{
 					if (i[2] == 0)
 					{
