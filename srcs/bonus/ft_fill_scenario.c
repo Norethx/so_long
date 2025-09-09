@@ -6,23 +6,23 @@
 /*   By: rgomes-d <rgomes-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 17:49:22 by rgomes-d          #+#    #+#             */
-/*   Updated: 2025/09/09 13:55:02 by rgomes-d         ###   ########.fr       */
+/*   Updated: 2025/09/09 13:36:23 by rgomes-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "so_long_bonus.h"
 
-static void	ft_render_solo_image_line(t_game *game, int line)
+void	ft_render_solo_image_line(t_game *game, int line)
 {
 	mlx_t	*mlx;
 	int		i;
 
 	i = 0;
-	mlx = ft_mlx_obj(17, NULL);
+	mlx = ft_mlx_obj(15, NULL);
 	while (i <= game->size.x)
 	{
 		if (game->map[line][i] == '1' && i != 0 && i != game->size.x)
-			mlx_image_to_window(mlx, (mlx_image_t *)ft_mlx_obj(15, NULL), i
+			mlx_image_to_window(mlx, (mlx_image_t *)ft_mlx_obj(13, NULL), i
 				* WIDTH, line * WIDTH);
 		else if (game->map[line][i] == '1' && i == 0)
 			mlx_image_to_window(mlx, (mlx_image_t *)ft_mlx_obj(9, NULL), i
@@ -43,7 +43,7 @@ void	ft_render_dup(t_game *game, char c, int *img)
 	int		i[2];
 
 	i[0] = 1;
-	mlx = ft_mlx_obj(17, NULL);
+	mlx = ft_mlx_obj(15, NULL);
 	while (i[0] < game->size.y)
 	{
 		i[1] = 1;
@@ -71,7 +71,7 @@ void	ft_build_floor(t_game *game)
 	int		i[2];
 
 	i[0] = 0;
-	mlx = ft_mlx_obj(17, NULL);
+	mlx = ft_mlx_obj(15, NULL);
 	while (i[0] <= game->size.y)
 	{
 		i[1] = 0;
@@ -100,7 +100,7 @@ void	ft_build_walls(t_game *game)
 	int		i[2];
 
 	i[0] = 0;
-	mlx = ft_mlx_obj(17, NULL);
+	mlx = ft_mlx_obj(15, NULL);
 	while (i[0] <= game->size.y)
 	{
 		i[1] = 0;
@@ -127,7 +127,7 @@ void	ft_fill_edges(t_pos max, int pos)
 	mlx_t	*mlx;
 	int		i;
 
-	mlx = ft_mlx_obj(17, NULL);
+	mlx = ft_mlx_obj(15, NULL);
 	i = 1;
 	if (max.y == pos)
 	{

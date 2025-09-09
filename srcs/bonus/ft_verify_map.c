@@ -6,11 +6,11 @@
 /*   By: rgomes-d <rgomes-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 11:15:16 by rgomes-d          #+#    #+#             */
-/*   Updated: 2025/09/09 13:38:30 by rgomes-d         ###   ########.fr       */
+/*   Updated: 2025/09/09 13:37:02 by rgomes-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "so_long_bonus.h"
 
 static t_map	ft_verify_map(char **map, t_pos ref);
 static void		ft_verify_start(char **map, t_pos ref, t_game **obj_map);
@@ -84,7 +84,7 @@ static void	ft_verify_start(char **map, t_pos ref, t_game **obj_map)
 				obj_map[0]->init.x = init.x;
 				obj_map[0]->init.y = init.y;
 			}
-			else if (!ft_strchr("01CEP", map[init.y][init.x]))
+			else if (!ft_strchr("01CEPX", map[init.y][init.x]))
 				obj_map[0]->others++;
 			init.x++;
 		}

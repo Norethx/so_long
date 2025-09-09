@@ -5,91 +5,64 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: rgomes-d <rgomes-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/07 21:13:44 by rgomes-d          #+#    #+#             */
-/*   Updated: 2025/09/08 20:05:09 by rgomes-d         ###   ########.fr       */
+/*   Created: 2025/09/09 13:29:59 by rgomes-d          #+#    #+#             */
+/*   Updated: 2025/09/09 13:54:37 by rgomes-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-static void	ft_alter_instance(t_player *player, int cont, int i);
-static void	ft_alter_position_all(t_player *player);
-static void	verify_walls(mlx_image_t *player, mlx_instance_t *ist_w,
+static void	ft_animation_move(char c, int cont, t_game *game);
+static void	verify_walls(mlx_image_t **player, mlx_instance_t *ist_w,
 				size_t count);
-static void	ft_walk(t_player *player, char c, int cont, t_game *game);
+static void	ft_walk(mlx_image_t **player, char c, int cont, t_game *game);
 
-void	ft_animation_move(char c, int cont, t_game *game)
+void	ft_hook_key(mlx_key_data_t keydata, void *param)
 {
-	t_player	*player;
+	mlx_t	*mlx;
+	t_game	*game;
+
+	game = param;
+	mlx = ft_mlx_obj(17, 0);
+	if (keydata.action == MLX_PRESS)
+	{
+		if (keydata.key == MLX_KEY_ESCAPE)
+			mlx_close_window(mlx);
+		if (keydata.key == MLX_KEY_UP || keydata.key == MLX_KEY_W)
+			ft_animation_move('y', -WIDTH, game);
+		if (keydata.key == MLX_KEY_DOWN || keydata.key == MLX_KEY_S)
+			ft_animation_move('y', +WIDTH, game);
+		if (keydata.key == MLX_KEY_LEFT || keydata.key == MLX_KEY_A)
+			ft_animation_move('x', -WIDTH, game);
+		if (keydata.key == MLX_KEY_RIGHT || keydata.key == MLX_KEY_D)
+			ft_animation_move('x', +WIDTH, game);
+	}
+}
+
+static void	ft_animation_move(char c, int cont, t_game *game)
+{
+	mlx_image_t	*player[2];
 	mlx_image_t	*wall_m;
 
-	player = ft_mlx_obj(18, NULL);
+	player[0] = ft_mlx_obj(13, NULL);
+	player[1] = ft_mlx_obj(14, NULL);
 	wall_m = ft_mlx_obj(WALL_MID, NULL);
-	player->actual_i = 3;
-	player->direction = cont;
 	ft_walk(player, c, cont, game);
-	verify_walls(player->run[0], wall_m->instances, wall_m->count);
-	ft_alter_instance(player, cont, 0);
-	ft_alter_position_all(player);
-	player->last_anime = mlx_get_time();
-	ft_gc_collect();
-}
-
-static void	ft_alter_position_all(t_player *player)
-{
-	int		i;
-	int32_t	z;
-
-	i = 0;
-	z = player->run[0]->instances[0].z;
-	while (i < 8)
-	{
-		if (i == 0)
-		{
-			player->idle[i]->instances[0].x = player->run[0]->instances[0].x;
-			player->idle[i]->instances[0].y = player->run[0]->instances[0].y;
-			mlx_set_instance_depth(&player->idle[i++]->instances[0], z);
-		}
-		else
-		{
-			player->idle[i]->instances[0].x = player->run[0]->instances[0].x;
-			player->idle[i]->instances[0].y = player->run[0]->instances[0].y;
-			mlx_set_instance_depth(&player->idle[i]->instances[0], z);
-			player->run[i]->instances[0].x = player->run[0]->instances[0].x;
-			player->run[i]->instances[0].y = player->run[0]->instances[0].y;
-			mlx_set_instance_depth(&player->run[i++]->instances[0], z);
-		}
-	}
-}
-
-static void	ft_alter_instance(t_player *player, int cont, int i)
-{
-	player->actual = (player->actual + 1) % 4;
 	if (cont < 0)
-	{
-		while (i < 8)
-		{
-			if (player->actual + 4 == i)
-				player->run[i]->instances[0].enabled = true;
-			else
-				player->run[i]->instances[0].enabled = false;
-			player->idle[i++]->instances[0].enabled = false;
-		}
-	}
+		player[0]->instances[0].enabled = false;
+	if (cont < 0)
+		player[1]->instances[0].enabled = true;
 	else
 	{
-		while (i < 8)
-		{
-			if (player->actual == i)
-				player->run[i]->instances[0].enabled = true;
-			else
-				player->run[i]->instances[0].enabled = false;
-			player->idle[i++]->instances[0].enabled = false;
-		}
+		player[0]->instances[0].enabled = true;
+		player[1]->instances[0].enabled = false;
 	}
+	player[1]->instances[0].x = player[0]->instances[0].x;
+	player[1]->instances[0].y = player[0]->instances[0].y;
+	verify_walls(player, wall_m->instances, wall_m->count);
 }
 
-static void	verify_walls(mlx_image_t *player, mlx_instance_t *ist_w,
+static void	verify_walls(mlx_image_t **player, mlx_instance_t *ist_w,
 		size_t count)
 {
 	int	i;
@@ -97,20 +70,29 @@ static void	verify_walls(mlx_image_t *player, mlx_instance_t *ist_w,
 	i = 0;
 	while ((size_t)i < count)
 	{
-		if (ist_w[i].y - WIDTH == player->instances[0].y
-			&& ist_w[i].x == player->instances[0].x)
-			mlx_set_instance_depth(&player->instances[0], ist_w[i].z - 3);
-		if (ist_w[i].y + WIDTH == player->instances[0].y
-			&& ist_w[i].x == player->instances[0].x)
-			mlx_set_instance_depth(&player->instances[0], ist_w[i].z + 3);
-		else if (ist_w[i].y + (WIDTH * 2) == player->instances[0].y
-			&& ist_w[i].x == player->instances[0].x)
-			mlx_set_instance_depth(&player->instances[0], ist_w[i].z + 3);
+		if (ist_w[i].y - WIDTH == player[1]->instances[0].y
+			&& ist_w[i].x == player[1]->instances[0].x)
+		{
+			mlx_set_instance_depth(&player[0]->instances[0], ist_w[i].z - 3);
+			mlx_set_instance_depth(&player[1]->instances[0], ist_w[i].z - 3);
+		}
+		if (ist_w[i].y + WIDTH == player[1]->instances[0].y
+			&& ist_w[i].x == player[1]->instances[0].x)
+		{
+			mlx_set_instance_depth(&player[0]->instances[0], ist_w[i].z + 3);
+			mlx_set_instance_depth(&player[1]->instances[0], ist_w[i].z + 3);
+		}
+		else if (ist_w[i].y + (WIDTH * 2) == player[1]->instances[0].y
+			&& ist_w[i].x == player[1]->instances[0].x)
+		{
+			mlx_set_instance_depth(&player[0]->instances[0], ist_w[i].z + 3);
+			mlx_set_instance_depth(&player[1]->instances[0], ist_w[i].z + 3);
+		}
 		i++;
 	}
 }
 
-static void	ft_walk(t_player *player, char c, int cont, t_game *game)
+static void	ft_walk(mlx_image_t **player, char c, int cont, t_game *game)
 {
 	char		**map;
 	t_root_list	*r_map;
@@ -119,22 +101,20 @@ static void	ft_walk(t_player *player, char c, int cont, t_game *game)
 	map = ((t_gc_list *)ft_to_root_list(r_map)->lst->head->content)->content;
 	if (c == 'y')
 	{
-		if (ft_strchr("1E", map[(player->run[0]->instances[0].y + cont)
-				/ WIDTH][player->run[0]->instances[0].x / WIDTH]))
+		if (ft_strchr("1E", map[(player[0]->instances[0].y + cont)
+					/ WIDTH][player[0]->instances[0].x / WIDTH]))
 			return ;
-		player->run[0]->instances[0].y += cont;
+		player[0]->instances[0].y += cont;
 		game->mov++;
-		ft_mlx_obj(16, game);
 		ft_printf("Moves: %d\n", game->mov);
 	}
 	if (c == 'x')
 	{
-		if (ft_strchr("1E", map[player->run[0]->instances[0].y
-				/ WIDTH][(player->run[0]->instances[0].x + cont) / WIDTH]))
+		if (ft_strchr("1E", map[player[0]->instances[0].y
+					/ WIDTH][(player[0]->instances[0].x + cont) / WIDTH]))
 			return ;
-		player->run[0]->instances[0].x += cont;
+		player[0]->instances[0].x += cont;
 		game->mov++;
-		ft_mlx_obj(16, game);
 		ft_printf("Moves: %d\n", game->mov);
 	}
 }

@@ -5,7 +5,7 @@
       "name": "C/C++ Runner: Debug Session",
       "type": "cppdbg",
       "request": "launch",
-      "args": ["map5.ber"],
+      "args": ["./maps/map5.ber"],
       "stopAtEntry": false,
       "externalConsole": false,
       "cwd": "/nfs/homes/rgomes-d/git_Noreth/so_long",

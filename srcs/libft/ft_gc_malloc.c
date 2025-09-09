@@ -1,27 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strcmp.c                                        :+:      :+:    :+:   */
+/*   ft_gc_malloc.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rgomes-d <rgomes-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/15 13:51:33 by rgomes-d          #+#    #+#             */
-/*   Updated: 2025/09/09 17:08:51 by rgomes-d         ###   ########.fr       */
+/*   Created: 2025/08/19 13:09:14 by rgomes-d          #+#    #+#             */
+/*   Updated: 2025/09/09 16:30:14 by rgomes-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_strcmp(const char *s1, const char *s2)
+t_gc_list	*ft_gc_malloc(size_t size, t_gc_type type)
 {
-	unsigned int	i;
+	t_gc_list		*new_gc;
+	void			*new_c;
+	t_gcext_list	*lst;
 
-	i = 0;
-	while ((s1[i] != '\0' || s2[i] != '\0'))
+	lst = ft_gc_start();
+	if (!lst || size > 2147483647)
+		return (NULL);
+	new_gc = malloc(sizeof(t_list));
+	if (!new_gc)
+		return (NULL);
+	new_gc->type = type;
+	new_c = malloc(size);
+	new_gc->content = new_c;
+	if (!new_gc->content)
 	{
-		if ((unsigned char)s1[i] != (unsigned char)s2[i])
-			return ((unsigned char)s1[i] - (unsigned char)s2[i]);
-		i++;
+		free(new_gc);
+		return (NULL);
 	}
-	return (0);
+	ft_gclstadd_back(&lst, new_gc);
+	return (new_gc);
 }

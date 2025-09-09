@@ -6,11 +6,11 @@
 /*   By: rgomes-d <rgomes-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 18:43:41 by rgomes-d          #+#    #+#             */
-/*   Updated: 2025/09/09 14:09:03 by rgomes-d         ###   ########.fr       */
+/*   Updated: 2025/09/09 14:23:51 by rgomes-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "so_long_bonus.h"
 
 static void	aux_flood_fill(t_pos init, t_pos *new);
 
@@ -19,12 +19,9 @@ void	ft_flood_fill(char **map, t_pos init, t_pos final, t_game **obj_map)
 	t_pos	p_init[4];
 
 	if (map[init.y][init.x] == 'E')
-	{
 		obj_map[0]->f_ext++;
-		obj_map[0]->end.x = init.x;
-		obj_map[0]->end.y = init.y;
+	if (map[init.y][init.x] == 'E')
 		map[init.y][init.x] = '1';
-	}
 	if (init.x < 0 || init.y < 0 || final.x == init.x || final.y == init.y
 		|| ft_strchr("1E", map[init.y][init.x]))
 		return ;

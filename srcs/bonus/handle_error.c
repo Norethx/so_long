@@ -6,11 +6,11 @@
 /*   By: rgomes-d <rgomes-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 19:04:47 by rgomes-d          #+#    #+#             */
-/*   Updated: 2025/09/09 13:05:53 by rgomes-d         ###   ########.fr       */
+/*   Updated: 2025/09/09 13:37:06 by rgomes-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "so_long_bonus.h"
 
 int	handle_error(t_map error)
 {
