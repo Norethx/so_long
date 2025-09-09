@@ -6,7 +6,7 @@
 /*   By: rgomes-d <rgomes-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 20:38:26 by rgomes-d          #+#    #+#             */
-/*   Updated: 2025/09/05 19:41:19 by rgomes-d         ###   ########.fr       */
+/*   Updated: 2025/09/08 18:57:20 by rgomes-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,8 +97,8 @@ static char	**ft_size_map(t_gc_list *map)
 
 static char	**ft_array_dup(char **arr)
 {
-	char **n_arr;
-	int i;
+	char	**n_arr;
+	int		i;
 
 	i = 0;
 	while (arr[i++])

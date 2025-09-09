@@ -1,20 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_hanfle_player.c                                 :+:      :+:    :+:   */
+/*   ft_handle_player.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rgomes-d <rgomes-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/07 21:13:44 by rgomes-d          #+#    #+#             */
-/*   Updated: 2025/09/08 01:08:00 by rgomes-d         ###   ########.fr       */
+/*   Updated: 2025/09/08 20:05:09 by rgomes-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
 static void	ft_alter_instance(t_player *player, int cont, int i);
-static void ft_alter_position_all(t_player *player);
-static	void verify_walls(mlx_image_t *player, mlx_instance_t *ist_w, size_t count);
+static void	ft_alter_position_all(t_player *player);
+static void	verify_walls(mlx_image_t *player, mlx_instance_t *ist_w,
+				size_t count);
 static void	ft_walk(t_player *player, char c, int cont, t_game *game);
 
 void	ft_animation_move(char c, int cont, t_game *game)
@@ -22,7 +23,7 @@ void	ft_animation_move(char c, int cont, t_game *game)
 	t_player	*player;
 	mlx_image_t	*wall_m;
 
-	player = ft_mlx_obj(18,NULL);
+	player = ft_mlx_obj(18, NULL);
 	wall_m = ft_mlx_obj(WALL_MID, NULL);
 	player->actual_i = 3;
 	player->direction = cont;
@@ -31,12 +32,13 @@ void	ft_animation_move(char c, int cont, t_game *game)
 	ft_alter_instance(player, cont, 0);
 	ft_alter_position_all(player);
 	player->last_anime = mlx_get_time();
+	ft_gc_collect();
 }
 
-static void ft_alter_position_all(t_player *player)
+static void	ft_alter_position_all(t_player *player)
 {
-	int i;
-	int32_t z;
+	int		i;
+	int32_t	z;
 
 	i = 0;
 	z = player->run[0]->instances[0].z;
@@ -87,20 +89,21 @@ static void	ft_alter_instance(t_player *player, int cont, int i)
 	}
 }
 
-static	void verify_walls(mlx_image_t *player, mlx_instance_t *ist_w, size_t count)
+static void	verify_walls(mlx_image_t *player, mlx_instance_t *ist_w,
+		size_t count)
 {
 	int	i;
 
 	i = 0;
 	while ((size_t)i < count)
 	{
-		if (ist_w[i].y - WIDTH == player->instances[0].y 
+		if (ist_w[i].y - WIDTH == player->instances[0].y
 			&& ist_w[i].x == player->instances[0].x)
 			mlx_set_instance_depth(&player->instances[0], ist_w[i].z - 3);
-		if (ist_w[i].y + WIDTH == player->instances[0].y 
+		if (ist_w[i].y + WIDTH == player->instances[0].y
 			&& ist_w[i].x == player->instances[0].x)
 			mlx_set_instance_depth(&player->instances[0], ist_w[i].z + 3);
-		else if (ist_w[i].y + (WIDTH * 2) == player->instances[0].y 
+		else if (ist_w[i].y + (WIDTH * 2) == player->instances[0].y
 			&& ist_w[i].x == player->instances[0].x)
 			mlx_set_instance_depth(&player->instances[0], ist_w[i].z + 3);
 		i++;
@@ -122,7 +125,7 @@ static void	ft_walk(t_player *player, char c, int cont, t_game *game)
 		player->run[0]->instances[0].y += cont;
 		game->mov++;
 		ft_mlx_obj(16, game);
-		ft_gc_collect();
+		ft_printf("Moves: %d\n", game->mov);
 	}
 	if (c == 'x')
 	{
@@ -132,6 +135,6 @@ static void	ft_walk(t_player *player, char c, int cont, t_game *game)
 		player->run[0]->instances[0].x += cont;
 		game->mov++;
 		ft_mlx_obj(16, game);
-		ft_gc_collect();
+		ft_printf("Moves: %d\n", game->mov);
 	}
 }

@@ -6,14 +6,14 @@
 /*   By: rgomes-d <rgomes-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 11:15:16 by rgomes-d          #+#    #+#             */
-/*   Updated: 2025/09/05 18:04:13 by rgomes-d         ###   ########.fr       */
+/*   Updated: 2025/09/08 18:57:05 by rgomes-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
 static t_map	ft_verify_map(char **map, t_pos ref);
-static t_pos	ft_verify_start(char **map, t_pos ref);
+static void		ft_verify_start(char **map, t_pos ref, t_game **obj_map);
 static int		ft_handle_map_aux(t_game *meta_map);
 static t_game	*ft_init_meta_map(void);
 
@@ -28,12 +28,7 @@ t_game	*ft_handle_map(char **map)
 	meta_map->size.x = ft_strlen(map[0]) - 1;
 	if (ft_verify_map(map, meta_map->size))
 		return (NULL);
-	meta_map->init = ft_verify_start(map, meta_map->size);
-	if (meta_map->init.y == -1)
-	{
-		handle_error(ERROR_NOSTART);
-		return (NULL);
-	}
+	ft_verify_start(map, meta_map->size, &meta_map);
 	ft_flood_fill(map, meta_map->init, meta_map->size, &meta_map);
 	if (ft_handle_map_aux(meta_map))
 		return (NULL);
@@ -69,25 +64,32 @@ static t_map	ft_verify_map(char **map, t_pos ref)
 	return (0);
 }
 
-static t_pos	ft_verify_start(char **map, t_pos ref)
+static void	ft_verify_start(char **map, t_pos ref, t_game **obj_map)
 {
 	t_pos	init;
 
 	init.y = 0;
-	while (init.y <= ref.y)
+	while (init.y < ref.y)
 	{
 		init.x = 0;
-		while (init.x <= ref.x)
+		while (init.x < ref.x)
 		{
-			if (map[init.y][init.x] == 'P')
-				return (init);
+			if (map[init.y][init.x] == 'C')
+				obj_map[0]->collect->qt++;
+			else if (map[init.y][init.x] == 'E')
+				obj_map[0]->exit->qt++;
+			else if (map[init.y][init.x] == 'P')
+			{
+				obj_map[0]->player->qt++;
+				obj_map[0]->init.x = init.x;
+				obj_map[0]->init.y = init.y;
+			}
+			else if (!ft_strchr("01CEPX", map[init.y][init.x]))
+				obj_map[0]->others++;
 			init.x++;
 		}
 		init.y++;
 	}
-	init.x = -1;
-	init.y = -1;
-	return (init);
 }
 
 static int	ft_handle_map_aux(t_game *meta_map)
@@ -104,6 +106,10 @@ static int	ft_handle_map_aux(t_game *meta_map)
 		return (handle_error(ERROR_MOREONESTART));
 	if (meta_map->exit->qt > 1)
 		return (handle_error(ERROR_MOREONEEXIT));
+	if (meta_map->exit->qt != meta_map->f_ext)
+		return (handle_error(ERROR_NOEXIT));
+	if (meta_map->collect->qt != meta_map->f_col)
+		return (handle_error(ERROR_NOCOLLEC));
 	return (0);
 }
 

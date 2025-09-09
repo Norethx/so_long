@@ -6,7 +6,7 @@
 /*   By: rgomes-d <rgomes-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 18:48:55 by rgomes-d          #+#    #+#             */
-/*   Updated: 2025/09/08 00:58:02 by rgomes-d         ###   ########.fr       */
+/*   Updated: 2025/09/08 20:18:09 by rgomes-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # include "gc.h"
 # include "libft.h"
 
-# define WIDTH 28
+# define WIDTH 32
 # define HEIGHT (WIDTH + (WIDTH * 0.75))
 
 typedef enum e_map
@@ -34,7 +34,7 @@ typedef enum e_map
 	ERROR_MOREONESTART,
 	ERROR_MOREONEEXIT,
 	ERROR_NOBER
-}				t_map;
+}					t_map;
 
 typedef enum e_handle_game
 {
@@ -54,57 +54,55 @@ typedef enum e_handle_game
 	PLAYER_R,
 	PLAYER_L,
 	WALL_MID,
-}				t_handle_game;
-
-// typedef struct s_obj_map
-// {
-// 	int			collectible;
-// 	int			exit;
-// 	int			starting;
-// 	int			others_char;
-// }				t_obj_map;
+}					t_handle_game;
 
 typedef struct s_pos
 {
-	int			x;
-	int			y;
-}				t_pos;
+	int				x;
+	int				y;
+}					t_pos;
 
 typedef struct s_mlx_init
 {
-	int			idx;
-	int			max_wid;
-	int			max_hei;
-}				t_mlx_init;
-
-// typedef struct s_player
-// {
-// 	mlx_texture_t	**texture;
-// 	mlx_image_t		**image;
-// 	int				actual;
-// 	double			last_anime;
-// }					t_player;
+	int				idx;
+	int				max_wid;
+	int				max_hei;
+}					t_mlx_init;
 
 typedef struct s_mlx_lst
 {
-	t_list		lst;
-	int			qt;
-	int			active;
-	double		last_i;
-}				t_mlx_lst;
+	int				qt;
+	int				active;
+	double			last_i;
+}					t_mlx_lst;
+
+typedef struct s_patrol
+{
+	int				actual;
+	int				actual_i;
+	int				direction;
+	int				idx;
+	int				last_dir;
+	int				flag;
+	double			last_anime;
+	struct s_patrol	*next;
+}					t_patrol;
 
 typedef struct s_game
 {
-	t_mlx_lst	*player;
-	t_mlx_lst	*collect;
-	t_mlx_lst	*exit;
-	int			others;
-	int			qt_col;
-	int			mov;
-	t_pos		size;
-	t_pos		init;
-	char		**map;
-}				t_game;
+	t_mlx_lst		*player;
+	t_mlx_lst		*collect;
+	t_mlx_lst		*exit;
+	int				others;
+	int				qt_col;
+	int				mov;
+	t_pos			size;
+	t_pos			init;
+	char			**map;
+	t_patrol		*patrols;
+	int				f_col;
+	int				f_ext;
+}					t_game;
 
 typedef struct s_player
 {
@@ -116,23 +114,30 @@ typedef struct s_player
 	double			last_anime;
 }					t_player;
 
-// typedef struct s_game
-// {
-// 	t_player		*iddle;
-// 	t_player		*move;
-// 	t_collec		*collect;
-// 	t_pos			exit;
-// 	t_player		*enemy_i;
-// 	t_player		*enemy_m;
-// }					t_game;
-
-void			ft_flood_fill(char **map, t_pos init, t_pos final,
-					t_game **obj_map);
-int				handle_error(t_map error);
-t_game			*ft_handle_map(char **map);
-void			*ft_mlx_obj(int idx, t_game *game);
-int				ft_handle_game(t_game *meta_map);
-void			ft_fill_scene(t_game *game);
-void			ft_animation_move(char c, int cont, t_game *game);
+void				ft_flood_fill(char **map, t_pos init, t_pos final,
+						t_game **obj_map);
+int					handle_error(t_map error);
+t_game				*ft_handle_map(char **map);
+void				*ft_mlx_obj(int idx, t_game *game);
+int					ft_handle_game(t_game *meta_map);
+void				*ft_fill_scene(t_game *game);
+void				ft_animation_move(char c, int cont, t_game *game);
+void				ft_animation_move_patrol(t_patrol *info, char c, int cont);
+void				ft_init_image(mlx_image_t **imgs, mlx_t *mlx);
+void				ft_hook_idle(void *param);
+void				ft_hook_idle_player(void);
+void				ft_init_image_idle_patrol(t_player **imgs, mlx_t *mlx);
+void				ft_init_image_run_patrol(t_player **imgs, mlx_t *mlx);
+void				ft_init_image_idle_player(t_player **imgs, mlx_t *mlx);
+void				ft_init_image_run_player(t_player **imgs, mlx_t *mlx);
+int					ft_walk_aux_y(t_player *player, char **map, int cont,
+						t_patrol **idx);
+int					ft_walk_aux_x(t_player *player, char **map, int cont,
+						t_patrol **idx);
+void				ft_build_floor(t_game *game);
+void				ft_build_walls(t_game *game);
+void				ft_fill_edges(t_pos max, int pos);
+void				ft_render_dup(t_game *game, char c, int *img);
+void				ft_render_solo_image_line(t_game *game, int line);
 
 #endif
