@@ -1,5 +1,7 @@
 # 🎮 so_long
-  ![Demonstração do jogo](so_long.gif)
+<p align="center">
+  <img src="so_long.gif" alt="Demonstração do jogo">
+</p>
 
 Esse foi o meu primeiro programa desenvolvido na 42.
 O projeto faz parte do **ML 2**, sendo um dos três projetos gráficos que podemos escolher nesse módulo.
