@@ -147,25 +147,25 @@ Criei uma estrutura para *childs* (player e patrulhas):
   make
   ```
 ### Projeto com bônus
-```bash
-make bonus
-```
+  ```bash
+  make bonus
+  ```
 
 5. Execute:
-```bash
-./so_long caminho/para/mapa.ber
-```
+  ```bash
+  ./so_long caminho/para/mapa.ber
+  ```
 
 👉 Já existem mapas de exemplo no repositório:
-- maps/ → mapas simples.
-- maps/bonus/ → mapas com patrulhas.
+  - maps/ → mapas simples.
+  - maps/bonus/ → mapas com patrulhas.
 
 ---
 
 ## ⚠️ Observações
 
-- Nos computadores da 42, cc é mapeado para gcc.
-- Caso tenha erro de compilação, altere a variável CC no Makefile para gcc.
+  - Nos computadores da 42, cc é mapeado para gcc.
+  - Caso tenha erro de compilação, altere a variável CC no Makefile para gcc.
 
 ---
 
