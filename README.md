@@ -134,3 +134,39 @@ Criei uma estrutura para *childs* (player e patrulhas):
 2. Clone este repositório:  
    ```bash
    git@github.com:Norethx/so_long.git
+   ```
+
+3. Clone também a MLX42 dentro da pasta do projeto:  
+  ```bash
+  git clone https://github.com/codam-coding-college/MLX42
+  ```
+
+4. Compile:
+# Projeto obrigatório
+  ```bash
+  make
+  ```
+# Projeto com bônus
+```bash
+make bonus
+```
+
+5. Execute:
+```bash
+./so_long caminho/para/mapa.ber
+```
+
+👉 Já existem mapas de exemplo no repositório:
+- maps/ → mapas simples.
+- maps/bonus/ → mapas com patrulhas.
+
+---
+
+## ⚠️ Observações
+
+- Nos computadores da 42, cc é mapeado para gcc.
+- Caso tenha erro de compilação, altere a variável CC no Makefile para gcc.
+
+---
+
+✍️ Esse foi um dos projetos mais divertidos de implementar até agora. Espero que gostem do resultado tanto quanto eu gostei de desenvolvê-lo!
