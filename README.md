@@ -1,5 +1,6 @@
 # 🎮 so_long
 ![Demonstração do jogo](so_long.gif)
+
 Esse foi o meu primeiro programa desenvolvido na 42.
 O projeto faz parte do **ML 2**, sendo um dos três projetos gráficos que podemos escolher nesse módulo.
 
