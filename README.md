@@ -142,11 +142,11 @@ Criei uma estrutura para *childs* (player e patrulhas):
   ```
 
 4. Compile:
-# Projeto obrigatório
+### Projeto obrigatório
   ```bash
   make
   ```
-# Projeto com bônus
+### Projeto com bônus
 ```bash
 make bonus
 ```
