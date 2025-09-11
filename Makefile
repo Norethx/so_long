@@ -49,7 +49,7 @@ NC     = \033[0m
 all: $(NAME)
 
 $(NAME): $(LIBFT) $(OBJTS) $(MLX42)
-		@echo "$(GREEN)+==========================================+"
+		@echo "$(YELLOW)+==========================================+"
 		@echo "          Build $(NAME)          	"
 		@echo "+==========================================+$(NC)"
 		$(CC) $(CFLAGS) $(CPPFLAGS) $(OBJTS) $(LIBFT) $(MLX42) $(MLXFLAGS) -o $(NAME)
@@ -60,11 +60,11 @@ $(MLX42):
 		@echo "+==========================================+$(NC)"
 		cmake ./MLX42 -B ./MLX42/build && make -C ./MLX42/build -j4
 
-$(LIBFT):
-		@echo "$(BLUE)+==========================================+"
+$(LIBFT): $(OBJTS_LIBFT)
+		@echo "$(MAGENTA)+==========================================+"
 		@echo "                Github: Norethx       "
 		@echo "+==========================================+\n\n$(NC)"
-		@echo "$(YELLOW)	⢀⡴⠑⡄⠀⠀⠀⠀⠀⠀⠀⣀⣀⣤⣤⣤⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀"
+		@echo "$(GREEN)	⢀⡴⠑⡄⠀⠀⠀⠀⠀⠀⠀⣀⣀⣤⣤⣤⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀"
 		@echo "	⠸⡇⠀⠿⡀⠀⠀⠀⣀⡴⢿⣿⣿⣿⣿⣿⣿⣿⣷⣦⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀"
 		@echo "	⠀⠀⠀⠀⠑⢄⣠⠾⠁⣀⣄⡈⠙⣿⣿⣿⣿⣿⣿⣿⣿⣆⠀⠀⠀⠀⠀⠀⠀⠀"
 		@echo "	⠀⠀⠀⠀⢀⡀⠁⠀⠀⠈⠙⠛⠂⠈⣿⣿⣿⣿⣿⠿⡿⢿⣆⠀⠀⠀⠀⠀⠀⠀"
@@ -79,7 +79,7 @@ $(LIBFT):
 		@echo "	⠀⠀⠀⠀⠀⠀⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠃⠀⠀⠀⠀⠀⠀⠀⠀"
 		@echo "	⠀⠀⠀⠀⠀⠀⠀⠹⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠟⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀"
 		@echo "	⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠛⠻⠿⠿⠿⠿⠛⠉\n\n$(NC)"
-		@echo "$(MAGENTA)+==========================================+"
+		@echo "$(RED)+==========================================+"
 		@echo "      Welcome to so_long - Build libft       "
 		@echo "+==========================================+$(NC)"
 		@echo "Compilando código...\n"
@@ -88,19 +88,21 @@ $(LIBFT):
 		@echo "          Build Objts so_long          	"
 		@echo "+==========================================+$(NC)"
 
-
 %.o: %.c
 		$(CC) -c $(CFLAGS) $(CPPFLAGS) $< -o $@
 
-.PHONY: clean fclean re
+.PHONY: clean fclean re all bonus $(OBJTS_LIBFT)
 
 bonus:
 		$(MAKE) SRCS_MANDATORY="$(SRCS_BONUS)" all
 
 clean:
-		rm -f $(OBJTS_LIBFT) $(OBJTS) $(OBJTS_BONUS)
+		@make -C $(SRCS_LIBFT) clean
+		rm -f $(OBJTS) $(OBJTS_BONUS)
 
-fclean: clean
-		rm -f $(LIBFT) $(NAME) $(MLX42)
+fclean:
+		@make -C $(SRCS_LIBFT) fclean
+		rm -f $(OBJTS) $(OBJTS_BONUS)
+		rm -f $(NAME) $(MLX42)
 
 re: fclean all

@@ -6,7 +6,7 @@
 /*   By: rgomes-d <rgomes-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/27 12:47:47 by rgomes-d          #+#    #+#             */
-/*   Updated: 2025/09/03 14:31:23 by rgomes-d         ###   ########.fr       */
+/*   Updated: 2025/09/11 12:02:26 by rgomes-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,12 +85,12 @@ static int	ft_include_nnode(t_ext_list **lst, char *str)
 	if (lst[0] && lst[0]->head)
 	{
 		aux[1] = lst[0]->tail;
-		if (aux[1] && ((char *)aux[1]->content)[0] == str[0] && str[0] == 0)
-		{
-			free(str);
-			free(aux[0]);
-			return (0);
-		}
+		// if (aux[1] && ((char *)aux[1]->content)[0] == str[0] && str[0] == 0)
+		// {
+		// 	free(str);
+		// 	free(aux[0]);
+		// 	return (0);
+		// }
 		aux[0]->prev = aux[1];
 		aux[1]->next = aux[0];
 		lst[0]->tail = aux[0];

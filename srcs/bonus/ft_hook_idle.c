@@ -6,7 +6,7 @@
 /*   By: rgomes-d <rgomes-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 19:02:53 by rgomes-d          #+#    #+#             */
-/*   Updated: 2025/09/09 14:24:19 by rgomes-d         ###   ########.fr       */
+/*   Updated: 2025/09/11 13:53:58 by rgomes-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ static void	ft_hook_move_patrol(t_patrol *list, mlx_t *mlx)
 	while ((size_t)i < ((t_player *)ft_mlx_obj(19, NULL))->idle[0]->count)
 	{
 		aux->last_anime += mlx->delta_time;
-		while (aux->last_anime >= 0.16)
+		while (aux->last_anime >= 0.18)
 		{
 			if (aux->direction == 0 || aux->direction == 3)
 				mult = -1;

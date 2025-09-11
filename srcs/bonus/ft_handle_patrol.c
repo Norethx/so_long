@@ -6,7 +6,7 @@
 /*   By: rgomes-d <rgomes-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 11:18:18 by rgomes-d          #+#    #+#             */
-/*   Updated: 2025/09/09 19:06:32 by rgomes-d         ###   ########.fr       */
+/*   Updated: 2025/09/11 13:53:46 by rgomes-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	ft_animation_move_patrol(t_patrol *info, char c, int cont)
 	verify_walls(patrol->run[0], wall_m->instances, wall_m->count, info);
 	ft_alter_instance(patrol, cont, 0, info);
 	ft_alter_position_all(patrol, info);
-	info->last_anime -= 0.16;
+	info->last_anime -= 0.18;
 }
 
 static void	ft_alter_position_all(t_player *player, t_patrol *idx)

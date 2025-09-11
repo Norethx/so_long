@@ -6,7 +6,7 @@
 /*   By: rgomes-d <rgomes-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 20:03:25 by rgomes-d          #+#    #+#             */
-/*   Updated: 2025/07/16 10:56:07 by rgomes-d         ###   ########.fr       */
+/*   Updated: 2025/09/11 12:25:01 by rgomes-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,3 +33,6 @@ int	ft_atoi(const char *nptr)
 		result = (nptr[i++] - '0') + (result * 10);
 	return (result * multiplier);
 }
+
+
+//wdjwhd
