@@ -140,19 +140,20 @@ Criei uma estrutura para *childs* (player e patrulhas):
    ```
 
 3. Clone também a MLX42 dentro da pasta do projeto:
-    ```bash
+   ```bash
     git clone https://github.com/codam-coding-college/MLX42
-    ```
+   ```
 
 4. Compile:
 ### Projeto obrigatório
-    ```bash
-    make
-    ```
+  ```bash
+  make
+  ```
+  
 ### Projeto com bônus
-    ```bash
-    make bonus
-    ```
+  ```bash
+  make bonus
+  ```
 
 5. Execute:
     ```bash
