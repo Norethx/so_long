@@ -6,7 +6,7 @@
 /*   By: rgomes-d <rgomes-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 19:09:03 by rgomes-d          #+#    #+#             */
-/*   Updated: 2025/09/11 13:54:15 by rgomes-d         ###   ########.fr       */
+/*   Updated: 2025/09/13 18:18:54 by rgomes-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,12 @@ void	ft_hook_idle_player(void)
 	mlx = ft_mlx_obj(15, NULL);
 	player = ft_mlx_obj(18, NULL);
 	player->last_anime += mlx->delta_time;
-	while (player->last_anime >= 0.18)
+	while (player->last_anime >= 0.26)
 	{
 		player->actual = 3;
 		player->actual_i = (player->actual_i + 1) % 4;
 		ft_alter_instance_idle(player, player->direction, 0);
-		player->last_anime -= 0.18;
+		player->last_anime -= 0.26;
 	}
 }
 

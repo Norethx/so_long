@@ -6,7 +6,7 @@
 /*   By: rgomes-d <rgomes-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 11:15:16 by rgomes-d          #+#    #+#             */
-/*   Updated: 2025/09/09 13:37:02 by rgomes-d         ###   ########.fr       */
+/*   Updated: 2025/09/13 18:16:18 by rgomes-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,9 +117,7 @@ static t_game	*ft_init_meta_map(void)
 {
 	t_gc_list	*gc_meta_map;
 	t_game		*rtn;
-	int			i;
 
-	i = 0;
 	rtn = NULL;
 	gc_meta_map = ft_gc_calloc(1, sizeof(t_game), GC_DATA);
 	ft_gc_register_root(gc_meta_map, "full_map");
