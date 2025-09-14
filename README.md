@@ -141,7 +141,7 @@ Criei uma estrutura para *childs* (player e patrulhas):
 
 3. Clone também a MLX42 dentro da pasta do projeto:
    ```bash
-    git clone https://github.com/codam-coding-college/MLX42
+    https://github.com/codam-coding-college/MLX42
    ```
 
 4. Compile:
